@@ -1,1 +1,1 @@
-contrib/docker/Dockerfile.apache
+contrib/docker/Dockerfile.apache-postgres

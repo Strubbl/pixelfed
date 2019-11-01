@@ -7,7 +7,10 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends git gosu \
       optipng pngquant jpegoptim gifsicle \
       libfreetype6 libjpeg62-turbo libpng16-16 libxpm4 libwebp6 libmagickwand-6.q16-3 \
-      libfreetype6-dev libjpeg62-turbo-dev libpng-dev libxpm-dev libwebp-dev libmagickwand-dev libpq-dev \
+      libfreetype6-dev libjpeg62-turbo-dev libpng-dev libxpm-dev libwebp-dev libmagickwand-dev libpq-dev locales \
+ && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+ && sed -i -e 's/# en_US ISO-8859-1/en_US ISO-8859-1/' /etc/locale.gen \
+ && locale-gen \
  && docker-php-source extract \
  && docker-php-ext-configure gd \
       --with-freetype-dir=/usr/lib/x86_64-linux-gnu/ \
@@ -15,7 +18,7 @@ RUN apt-get update \
       --with-xpm-dir=/usr/lib/x86_64-linux-gnu/ \
       --with-webp-dir=/usr/lib/x86_64-linux-gnu/ \
  && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
- && docker-php-ext-install pdo_pgsql pgsql pcntl gd exif bcmath \
+ && docker-php-ext-install pdo_pgsql pgsql pcntl gd exif bcmath intl \
  && pecl install imagick \
  && docker-php-ext-enable imagick pcntl imagick gd exif \
  && a2enmod rewrite remoteip \
